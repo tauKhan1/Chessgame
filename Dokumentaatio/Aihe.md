@@ -13,4 +13,4 @@ __Pelaajan toiminnot:__
 - siirron peruuttaminen
 
 
-![Luokkakaavio:](Dokumentaatio/Luokkakaavio.jpg)
+![Luokkakaavio:](Luokkakaavio.jpg)
