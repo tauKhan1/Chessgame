@@ -1,15 +1,19 @@
-package game.logic;
+package game.logic.rules;
 
+import game.logic.components.Board;
+import game.logic.components.GamePiece;
 import java.util.List;
 
 public class MoveLegalityIdentifier {
 
     private Board board;
     private MovingRules rules;
+    private SpecialRuleChecker specialRuleChecker;
 
     public MoveLegalityIdentifier(Board board, MovingRules rules) {
         this.board = board;
         this.rules = rules;
+        this.specialRuleChecker = new SpecialRuleChecker();
     }
 
     public boolean moveIsPossible(int origRow, int origColumn, int nextRow, int nextColumn, String color) {
@@ -17,7 +21,7 @@ public class MoveLegalityIdentifier {
             return false;
         }
 
-        GamePiece movable = board.getSquareContent(origRow, nextColumn);
+        GamePiece movable = board.getSquareContent(origRow, origColumn);
 
         if (movable == null) {
             return false;
@@ -40,7 +44,7 @@ public class MoveLegalityIdentifier {
 
     private boolean isMoveWithinBoard(int origRow, int origColumn, int nextRow, int nextColumn) {
 
-        return (origRow < 9) && (1 <= origRow) && (origColumn < 9) && (1 <= origColumn) && (nextRow < 9) && (1 <= nextRow) && (nextColumn < 9) && (nextColumn <= 1);
+        return (origRow < 9) && (1 <= origRow) && (origColumn < 9) && (1 <= origColumn) && (nextRow < 9) && (1 <= nextRow) && (nextColumn < 9) && (1 <= nextColumn);
     }
 
     public boolean ruleIsApplicable(int or, int oc, int nr, int nc, String color, MovingRule rule) {
@@ -65,6 +69,10 @@ public class MoveLegalityIdentifier {
             return false;
         }
 
+        if (!checkSpecialRulesAllowMove(or, oc, nr, nc, color, rule)) {
+            return false;
+        }
+        
         return true;
     }
 
@@ -120,5 +128,14 @@ public class MoveLegalityIdentifier {
         }
 
         return true;
+    }
+
+    private boolean checkSpecialRulesAllowMove(int origRow, int origCol, int nextRow,
+            int nextCol, String color, MovingRule rule) {
+        
+        String specialRules = rule.getSpecialRules();
+
+        return specialRuleChecker.check(origRow, origCol, nextRow,
+                nextCol, color, specialRules, board);
     }
 }

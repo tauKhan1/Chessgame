@@ -1,5 +1,10 @@
-package game.logic;
+package game.logic.rules;
 
+import game.logic.components.GamePiece;
+import game.logic.components.Board;
+import game.logic.rules.MovingRule;
+import game.logic.rules.MoveLegalityIdentifier;
+import game.logic.rules.MovingRules;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package game.logic;
+package game.logic.components;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +25,18 @@ public class Board {
 
         return this.squares.get(convertPairToSquare(row, column)).getPiece();
     }
+    
+    public List<GamePiece> getPieces(String color) {
+        List<GamePiece> piecesOfSameColor = new ArrayList<>();
+        
+        for (GamePiece piece : pieces) {
+            if (piece.getColor().equals(color)) {
+                piecesOfSameColor.add(piece);
+            }
+        }
+       
+        return piecesOfSameColor;
+    }
 
     public void insertPiece(int row, int column, GamePiece piece) {
         if (isSquare(row, column)) {
@@ -36,6 +48,11 @@ public class Board {
 
         }
 
+    }
+    
+    public void removePiece(GamePiece piece) {
+        piece.getLocation().setPiece(null);
+        pieces.remove(piece);
     }
 
     public boolean movePiece(int originalRow, int originalColumn, int nextRow, int nextColumn) {

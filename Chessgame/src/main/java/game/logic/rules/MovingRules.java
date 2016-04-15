@@ -1,5 +1,5 @@
 
-package game.logic;
+package game.logic.rules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
