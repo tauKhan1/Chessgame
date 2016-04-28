@@ -30,7 +30,8 @@ public class Board {
         List<GamePiece> piecesOfSameColor = new ArrayList<>();
         
         for (GamePiece piece : pieces) {
-            if (piece.getColor().equals(color)) {
+            if (piece.getColor().equals(color) && !piece.getStatus().equals("CAPTURED")) {
+                
                 piecesOfSameColor.add(piece);
             }
         }

@@ -1,7 +1,7 @@
 package game.logic.components;
 
 public class GamePiece {
-    
+
     private String type;
     private String color;
     private Square location;
@@ -12,8 +12,7 @@ public class GamePiece {
         this.color = color;
         this.status = status;
     }
-    
-    
+
     public String getType() {
         return type;
     }
@@ -45,6 +44,5 @@ public class GamePiece {
     public void setStatus(String status) {
         this.status = status;
     }
-    
-    
+
 }

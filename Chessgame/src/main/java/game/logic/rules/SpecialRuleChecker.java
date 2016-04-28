@@ -5,6 +5,9 @@ import game.logic.components.GamePiece;
 
 public class SpecialRuleChecker {
 
+    public SpecialRuleChecker() {
+    }
+
     public boolean check(int origRow, int origCol, int nextRow,
             int nextCol, String color, String specialRules, Board board) {
 
@@ -31,7 +34,7 @@ public class SpecialRuleChecker {
     }
 
     private boolean pawnDoubleForwardEvaluation(int origRow, int origCol, int nextRow, int nextCol, Board board) {
-        if (board.getSquareContent(origRow, origCol).getStatus().equals("UNMOVED") && board.getSquareContent(nextRow, nextCol) == null) {
+        if (board.getSquareContent(origRow, origCol).getStatus().equals("UNMOVED") && board.getSquareContent(nextRow, nextCol) == null && Math.abs(origRow - nextRow) == 2) {
             return true;
         }
 

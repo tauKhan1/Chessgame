@@ -1,9 +1,7 @@
-
 package game.logic.rules;
 
-
 public class MoveBaseVector {
-    
+
     private int verticalComponent;
     private int horizontalComponent;
 
@@ -12,7 +10,6 @@ public class MoveBaseVector {
         this.horizontalComponent = horizontalComponent;
     }
 
-    
     public int getVerticalComponent() {
         return verticalComponent;
     }
@@ -28,6 +25,5 @@ public class MoveBaseVector {
     public void setHorizontalComponent(int horizontalComponent) {
         this.horizontalComponent = horizontalComponent;
     }
-    
-    
+
 }
