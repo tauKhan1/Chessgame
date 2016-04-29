@@ -24,5 +24,6 @@ joita MoveLegalityIdentifier käyttää tarkistaessaan siirtojen laillisuutta.
 
 __Sekvenssikaavioita__
 
-![Onnistunut siirto](onnistunutsiirto.png)
+![Onnistunut siirto](siirtoonnistunut.png)
+
 ![Epäonnistunut siirto](epaonnistunutsiirto.png)
