@@ -9,6 +9,9 @@ import game.logic.setup.BasicSetup;
 import game.logic.turn.Turn;
 import java.util.List;
 
+/**
+ * Luokka kuvaa shakkipeliä.
+ */
 public class Game {
 
     private Board board;
@@ -18,6 +21,9 @@ public class Game {
     private MoveLegalityIdentifier valifier;
     private CheckIdentifier checkIdentifier;
 
+    /**
+     * Luo pelin.
+     */
     public Game() {
         this.board = new Board();
         this.setupper = new BasicSetup();
@@ -26,18 +32,34 @@ public class Game {
         this.valifier = new MoveLegalityIdentifier(board, rules);
         this.checkIdentifier = new CheckIdentifier(valifier);
     }
-
+    
+    /**
+     * Palauttaa vuorossoa olevan värin.
+     * 
+     * @return Vuorossa oleva väri
+     */
     public String activeColor() {
         return turn.activeColor();
     }
-
+    
+    /**
+     * Tarkistaa, onko yritetty siirto mahdollinen, ja toteuttaa siirron tarvittaessa.
+     * 
+     * @param prevRow   Siirrettävän nappulan rivi
+     * 
+     * @param prevCol   Siirrettävän nappulan sarake
+     * 
+     * @param nextRow   Kohderivi
+     * 
+     * @param nextCol   Kohderivi
+     * 
+     * @return Tieto siitä, suoritettiinko siirto
+     */
     public boolean move(int prevRow, int prevCol, int nextRow, int nextCol) {
-        System.out.println("yritys " + prevRow + " " + prevCol + " " + nextRow + " " + nextCol);
         String color = turn.activeColor();
         boolean isLegal = valifier.isLegal(prevRow, prevCol, nextRow, nextCol, color);
 
         if (!isLegal) {
-            System.out.println("epäonnistui");
             return false;
         } else {
             turn.proceed();
@@ -46,11 +68,22 @@ public class Game {
         }
     }
 
+    /**
+     * Listaa tietynväriset nappulat laudalla.
+     * 
+     * @param color Väri
+     * 
+     * @return  Lista nappuloita 
+     */
     public List<GamePiece> getPieces(String color) {
         return this.board.getPieces(color);
     }
-
+    
+    /**
+     * Luo normaalin shakin alkutilanteen laudalle.
+     */
     public void setup() {
+        this.turn.setTurnNumber(1);
         this.setupper.setup(this.board);
     }
 }

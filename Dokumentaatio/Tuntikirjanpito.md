@@ -7,4 +7,5 @@ Päivä | Tunnit | Kuvaus
 15.4.2016 | 7,5h | sääntöluokkien koodausta, luokkakaavion päivitys.
 26.4.2016 | 6h | Käyttöliittymäluokkien koodausta
 27.4.2016 | 8h | Käyttöliittymän koodausta
-28.4.2016 | 10h | Käyttöliittymän koodausta ja logiikkaluokkien bugien korjausta. 
+28.4.2016 | 10h | Käyttöliittymän koodausta ja logiikkaluokkien bugien korjausta.
+29.4.2016 | 12h | Dokumentaatio laatimista. 

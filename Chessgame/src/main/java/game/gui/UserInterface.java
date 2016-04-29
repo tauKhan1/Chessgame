@@ -10,13 +10,21 @@ import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-
-public class UserInterface implements Runnable{
+/**
+ * Käyttöliittymän pääluokka, joka luo kuvanpiirtämiseen ja syötteiden
+ * vastaanottamiseen tarvittavien luokkien ilmentymät.
+ */
+public class UserInterface implements Runnable {
 
     private JFrame frame;
     private Game game;
     private MoveInputs inputs;
     
+    /**
+     * Luo olion ja asettaa sille pelin.
+     * 
+     * @param game Peli 
+     */
     public UserInterface(Game game) {
         this.game = game;
     }

@@ -7,13 +7,19 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.imageio.ImageIO;
 
+/**
+ * Luokka lataa tarvittavat kuvatieodostot ohjelman käyttöön.
+ */
 public class Images {
 
     private final String imageLocation = "src/main/resources/images/";
     private Map<String, BufferedImage> blackPieces;
     private Map<String, BufferedImage> whitePieces;
     private BufferedImage board;
-
+    
+    /**
+     * Luo olion ja lataa kuvat.
+     */
     public Images() {
         this.blackPieces = new HashMap<>();
         this.whitePieces = new HashMap<>();
@@ -49,7 +55,14 @@ public class Images {
         addPieceImage(color, "Queen");
         addPieceImage(color, "King");
     }
-
+    
+    /**
+     * Palauttaa haetunlaisen nappulan kuvan.
+     * 
+     * @param color Väri
+     * @param type  Nappulan tyyppi
+     * @return Kuva
+     */
     public BufferedImage getPieceImage(String color, String type) {
 
         if (color.equals("BLACK")) {

@@ -7,11 +7,18 @@ import java.awt.Graphics;
 import java.util.List;
 import javax.swing.JPanel;
 
+/**
+ * Luokka piirtää pelitilanteen ruudulle.
+ */
 public class BoardStateGraphics extends JPanel {
 
     private Images images;
     private Game game;
-
+    
+    /**
+     * Luo ilmentymän ja kuvat lataavan olion.
+     * @param game 
+     */
     public BoardStateGraphics(Game game) {
         super();
 
@@ -41,6 +48,9 @@ public class BoardStateGraphics extends JPanel {
         repaint();
     }
     
+    /**
+     * Piirtää laudan uudelleen vastaamaan nykyistä tilannetta.
+     */
     public void reDraw() {
         repaint();
     }

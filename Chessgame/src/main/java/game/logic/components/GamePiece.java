@@ -1,5 +1,8 @@
 package game.logic.components;
 
+/**
+ * Luokka kuvaa yksittäistä shakkinappulaa.
+ */
 public class GamePiece {
 
     private String type;
@@ -7,6 +10,13 @@ public class GamePiece {
     private Square location;
     private String status;
 
+    /**
+     * Luo nappulan.
+     * 
+     * @param type  Nappulan tyyppi
+     * @param color Nappulan väri
+     * @param status Nappulan tila, esimerkiksi onko se liikkunut tai syöty
+     */
     public GamePiece(String type, String color, String status) {
         this.type = type;
         this.color = color;

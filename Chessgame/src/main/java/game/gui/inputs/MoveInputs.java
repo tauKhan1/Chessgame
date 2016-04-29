@@ -3,6 +3,9 @@ package game.gui.inputs;
 import game.gui.graphics.BoardStateGraphics;
 import game.logic.Game;
 
+/**
+ * Luokka ottaa vastaan siirtokäskyt ja yrittää toteuttaa ne pelissä.
+ */
 public class MoveInputs {
 
     private boolean receiveInputs = true;
@@ -12,7 +15,14 @@ public class MoveInputs {
     private int prevCol;
     private int nextRow;
     private int nextCol;
-
+    
+    /**
+     * Luo ilmentymän oliosta.
+     * 
+     * @param game Peli
+     * 
+     * @param graphics Pelitilanteen piirtäjä
+     */
     public MoveInputs(Game game, BoardStateGraphics graphics) {
         this.prevRow = 0;
         this.prevCol = 0;
@@ -54,14 +64,22 @@ public class MoveInputs {
     public void setNextCol(int nextCol) {
         this.nextCol = nextCol;
     }
-
+    
+    /**
+     * Lisää hiirellä annetun ruutusyötteen, jos pelitilannetta ohjelma ei
+     * käsittele pelitilannetta sillä hetkellä.
+     * 
+     * @param x syötteen rivi
+     * 
+     * @param y syötteen sarake
+     */
     public void addInput(int x, int y) {
         if (receiveInputs) {
             permitInput(x, y);
         }
     }
 
-    public void permitInput(int x, int y) {
+    private void permitInput(int x, int y) {
         if (this.nextCol > 0 || this.prevCol == 0) {
             this.clear();
             this.prevCol = x;
@@ -72,20 +90,19 @@ public class MoveInputs {
 
             receiveInputs = false;
             if (attemptMove(prevRow, prevCol, nextRow, nextCol)) {
-                System.out.println("true");
                 this.graphics.reDraw();
             }
-            receiveInputs = true;
             this.clear();
+            receiveInputs = true;
         }
 
     }
 
-    public boolean attemptMove(int prevRow, int prevCol, int nextRow, int nextCol) {
+    private boolean attemptMove(int prevRow, int prevCol, int nextRow, int nextCol) {
         return this.game.move(prevRow, prevCol, nextRow, nextCol);
     }
 
-    public void clear() {
+    private void clear() {
         this.prevRow = 0;
         this.prevCol = 0;
         this.nextRow = 0;

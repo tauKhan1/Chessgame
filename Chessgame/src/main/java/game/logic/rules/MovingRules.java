@@ -5,10 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Luokka sisältää ja luo liikkumissäännöt.
+ */
 public class MovingRules {
 
     private final Map<String, List<MovingRule>> rules;
-
+    
+    /**
+     * Luo pelisäännöt.
+     */
     public MovingRules() {
         this.rules = new HashMap<>();
 
@@ -23,7 +29,14 @@ public class MovingRules {
         createQueenRules();
         createKingRules();
     }
-
+    
+    /**
+     * Metodi palauttaa listan nappulatyyppiin liittyvistä säännöistä.
+     * 
+     * @param pieceType Nappulatyyppi
+     * 
+     * @return Lista nappulatyyppiin liittyviä sääntöjä
+     */
     public List<MovingRule> getRules(String pieceType) {
         return this.rules.get(pieceType);
     }

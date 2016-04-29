@@ -13,4 +13,16 @@ __Pelaajan toiminnot:__
 - siirron peruuttaminen
 
 
+__Ohjelman rakenne__
+
+Pelin toimintaa ohjaa peliä kuvaava luokka Game. Käyttäjät tekevät Game-oliolle käyttöliittymän kautta siirtopyyntöjä, jotka Game-olio toteuttaa niiden ollessa sääntöjen mukaisia.
+MoveLegalityIdentifier luokan ilmentymältä Game-olio tarkistaa käyttäjän valitseman siirron laillisuuden. CheckIdentifier luokan tehtävä (kesken)
+on tarkistaa, syntyykö laudalle shakkitilanne siirron jälkeen. Board hallinoi shakkinappuloita ja niiden sijaintia. MovingRules sisältää nappulatyyppeihin liittyvät säännöt,
+joita MoveLegalityIdentifier käyttää tarkistaessaan siirtojen laillisuutta.
+
 ![Luokkakaavio:](Luokkakaavio.png)
+
+__Sekvenssikaavioita__
+
+![Onnistunut siirto](onnistunutsiirto.png)
+![Epäonnistunut siirto](epaonnistunutsiirto.png)

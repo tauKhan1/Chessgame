@@ -3,11 +3,37 @@ package game.logic.rules;
 import game.logic.components.Board;
 import game.logic.components.GamePiece;
 
+/**
+ * Luokan avulla tarkistetaan täyttyvätkö siirtoon mahdollisesti liittyvät erityisehdot.
+ */
 public class SpecialRuleChecker {
-
+    
+    /**
+     * Luo erikoissääntöjen tarkastajan.
+     */
     public SpecialRuleChecker() {
     }
-
+    
+    /**
+     * Metodi kertoo sallivatko siirtoon mahdollisesti liittyvät
+     * erikoissäännöt siirron toteuttamisen.
+     * 
+     * @param origRow   Siirrettävän nappulan alkuperäinen rivi
+     * 
+     * @param origCol   Siirrettävän nappulan alkuperäinen sarake
+     * 
+     * @param nextRow   Sirrettävän nappulan kohderivi
+     * 
+     * @param nextCol   Siirrettävän nappulan kohdesarake
+     * 
+     * @param color     Siirrettävän nappulan väri
+     * 
+     * @param specialRules  Siirtoon liittyvän erikoissäännön nimi
+     * 
+     * @param board Pelilauta
+     * 
+     * @return Tulos siitä, onko siirto erityissäännön mukainen
+     */
     public boolean check(int origRow, int origCol, int nextRow,
             int nextCol, String color, String specialRules, Board board) {
 

@@ -3,11 +3,23 @@ package game.logic.setup;
 import game.logic.components.Board;
 import game.logic.components.GamePiece;
 
+/**
+ * Luokka luo nappulat shakin alkutilaa vastaavaan tilanteeseen.
+ */
 public class BasicSetup {
-
+    
+    /**
+     * Luo alkutilanteen tekevän olion.
+     */
     public BasicSetup() {
     }
-
+    
+    /**
+     * Metodi luo tyhjälle shakkilaudalle normaalin shakin alkutilanteen
+     * mukaiset nappulat.
+     * 
+     * @param board Lauta, jolle nappulat lisätään
+     */
     public void setup(Board board) {
         addKings(board);
         addQueens(board);

@@ -1,11 +1,20 @@
 package game.logic.components;
 
+/**
+ * Luokka kuvaa ruutua shakkilaudalla.
+ */
 public class Square {
     
     private int row;
     private int column;
     private GamePiece piece;
     
+    /**
+     * Luo ruudun.
+     * 
+     * @param row   Rivi
+     * @param column Sarake
+     */
     public Square(int row, int column) {
         this.row = row;
         this.column = column;

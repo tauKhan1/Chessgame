@@ -36,7 +36,6 @@ public class MoveLegalityIdentifierRuleIsApplicableTest {
         board.insertPiece(1, 1, piece1);
         board.insertPiece(3, 3, piece2);
         board.insertPiece(5, 5, piece3);
-        inventedRules = new ArrayList<>();
         rule1 = new MovingRule(1, 1, 'x');
         rule2 = new MovingRule(0, 1, '1');
         rule3 = new MovingRule(-1, 0, 'x');
@@ -52,32 +51,32 @@ public class MoveLegalityIdentifierRuleIsApplicableTest {
     @Test
     public void TestUnmatchingMoveReturnsFalse() {
 
-        assertTrue(!identifier.ruleIsApplicable(1, 1, 1, 2, "WHITE", rule1));
+        assertTrue(!identifier.ruleIsApplicable(1, 1, 2, 1, "WHITE", rule1));
     }
 
     @Test
     public void TestLimitedRuleWorks() {
 
-        assertTrue(identifier.ruleIsApplicable(1, 1, 1, 2, "BLACK", rule2));
+        assertTrue(identifier.ruleIsApplicable(1, 1, 2, 1, "BLACK", rule2));
     }
 
     @Test
     public void TestLimitedRuleDoesntAllowMultiplication() {
 
-        assertTrue(!identifier.ruleIsApplicable(1, 1, 1, 5, "WHITE", rule2));
+        assertTrue(!identifier.ruleIsApplicable(1, 1, 5, 1, "WHITE", rule2));
     }
 
     @Test
     public void TestSimpleRuleDoesntAllowNegativeMovement() {
 
-        assertTrue(!identifier.ruleIsApplicable(3, 3, 3, 2, "WHITE", rule1));
+        assertTrue(!identifier.ruleIsApplicable(3, 3, 2, 2, "WHITE", rule1));
     }
 
     @Test
     public void TestColorRestrictionWorks() {
 
-        boolean first = identifier.ruleIsApplicable(3, 3, 1, 3, "WHITE", rule3);
-        boolean second = identifier.ruleIsApplicable(5, 5, 4, 5, "BLACK", rule3);
+        boolean first = identifier.ruleIsApplicable(3, 3, 3, 1, "WHITE", rule3);
+        boolean second = identifier.ruleIsApplicable(5, 5, 5, 4, "BLACK", rule3);
 
         assertTrue(!first && second);
     }
