@@ -120,6 +120,7 @@ public class MoveInputs {
     public boolean perform() {
         boolean result = this.game.move(prevRow, prevCol, nextRow, nextCol);
         this.clear();
+        graphics.repaint();
         return result;
     }
 

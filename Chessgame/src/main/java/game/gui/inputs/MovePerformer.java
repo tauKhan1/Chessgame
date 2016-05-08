@@ -11,7 +11,6 @@ public class MovePerformer implements ActionListener {
 
     private MoveInputs inputs;
     private GameStateUpdater updater;
-
     /**
      * Luo kuuntelijan.
      *

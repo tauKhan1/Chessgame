@@ -73,7 +73,6 @@ public class Game {
         boolean isLegal = valifier.isLegal(attemptedMove, color);
 
         if (!isLegal) {
-            System.out.println("väärin");
             return false;
         } else {
             board.movePiece(attemptedMove);

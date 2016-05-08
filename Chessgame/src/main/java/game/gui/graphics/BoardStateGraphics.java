@@ -31,6 +31,8 @@ public class BoardStateGraphics extends JPanel {
 
     @Override
     protected void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+        
         List<GamePiece> whitePieces = game.getPieces("WHITE");
         List<GamePiece> blackPieces = game.getPieces("BLACK");
 
@@ -41,7 +43,6 @@ public class BoardStateGraphics extends JPanel {
         
         paintPieces(whitePieces, graphics);
         paintPieces(blackPieces, graphics);
-        repaint();
     }
 
     private int convertPieceColumnToX(GamePiece piece) {
