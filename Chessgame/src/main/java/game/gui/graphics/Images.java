@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
  */
 public class Images {
 
-    private final String imageLocation = "classes/images/";
+    private final String imageLocation = "src/main/resources/images/";
     private Map<String, BufferedImage> blackPieces;
     private Map<String, BufferedImage> whitePieces;
     
