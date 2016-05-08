@@ -8,4 +8,11 @@ Päivä | Tunnit | Kuvaus
 26.4.2016 | 6h | Käyttöliittymäluokkien koodausta
 27.4.2016 | 8h | Käyttöliittymän koodausta
 28.4.2016 | 10h | Käyttöliittymän koodausta ja logiikkaluokkien bugien korjausta.
-29.4.2016 | 12h | Dokumentaatio laatimista. 
+29.4.2016 | 12h | Dokumentaatio laatimista.
+2.5.2016 | 6h | Käyttöliittymän koodausta.
+4.5.2016 | 6h | Sovelluslogiikan koodausta.
+5.5.2016 | 3h | Sovelluslogiikan koodausta.
+6.5.2016 | 6h | Käyttöliittymän ja sovelluslogiikan koodausta.
+7.5.2016 | 12h | Automaattisten testien koodausta ja käyttöliittymää.
+8.5.2016 | 12h | Dokumentaatiota ja käyttöliittymän koodausta.
+ 

@@ -2,8 +2,12 @@ game
 game.gui
 game.gui.graphics
 game.gui.inputs
+game.gui.statedisplay
 game.logic
 game.logic.components
+game.logic.events
+game.logic.move
 game.logic.rules
 game.logic.setup
+game.logic.state
 game.logic.turn

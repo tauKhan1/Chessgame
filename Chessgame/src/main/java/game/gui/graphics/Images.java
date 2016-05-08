@@ -12,10 +12,9 @@ import javax.imageio.ImageIO;
  */
 public class Images {
 
-    private final String imageLocation = "src/main/resources/images/";
+    private final String imageLocation = "classes/images/";
     private Map<String, BufferedImage> blackPieces;
     private Map<String, BufferedImage> whitePieces;
-    private BufferedImage board;
     
     /**
      * Luo olion ja lataa kuvat.
@@ -25,8 +24,6 @@ public class Images {
         this.whitePieces = new HashMap<>();
 
         try {
-            board = ImageIO.read(new File(imageLocation + "board.png"));
-
             addPiecesOfColor("White");
             addPiecesOfColor("Black");
 
@@ -72,7 +69,4 @@ public class Images {
         }
     }
 
-    public BufferedImage getBoardImage() {
-        return this.board;
-    }
 }

@@ -93,7 +93,11 @@ public class MovingRules {
         MovingRule upLeft = new MovingRule(-1, 1, '1');
         MovingRule downRight = new MovingRule(1, -1, '1');
         MovingRule downLeft = new MovingRule(-1, -1, '1');
-
+        MovingRule castlingLeft = new MovingRule(-2, 0, '1');
+        castlingLeft.setSpecialRules("kingCastling");
+        MovingRule castlingRight = new MovingRule(2, 0, '1');
+        castlingRight.setSpecialRules("kingCastling");
+        
         kingRules.add(up);
         kingRules.add(down);
         kingRules.add(left);
@@ -102,7 +106,9 @@ public class MovingRules {
         kingRules.add(upRight);
         kingRules.add(downLeft);
         kingRules.add(downRight);
-
+        kingRules.add(castlingLeft);
+        kingRules.add(castlingRight);
+        
         this.rules.put("KING", kingRules);
     }
 

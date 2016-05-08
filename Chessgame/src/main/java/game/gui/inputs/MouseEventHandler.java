@@ -9,30 +9,30 @@ import java.awt.event.MouseListener;
 public class MouseEventHandler implements MouseListener {
 
     MoveInputs inputs;
-    
+
     /**
      * Luo syötteen kuuntelijan.
-     * 
+     *
      * @param inputs Syöteruudut
      */
     public MouseEventHandler(MoveInputs inputs) {
         this.inputs = inputs;
     }
-    
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        int x = this.convertPositionIntoColumnOrRow(e.getX(), 0);
-        int y = 9 - this.convertPositionIntoColumnOrRow(e.getY(), 27);
+        int x = this.convertPositionIntoColumnOrRow(e.getX());
+        int y = 9 - this.convertPositionIntoColumnOrRow(e.getY());
         if (x >= 1 && y < 9) {
             this.inputs.addInput(x, y);
         }
+
     }
 
-    private int convertPositionIntoColumnOrRow(int x, int mod) {
-        
+    private int convertPositionIntoColumnOrRow(int x) {
+
         for (int i = 0; i <= 7; i++) {
-            if ((55 + mod + (i * 80) <= x) && (x <= 134 + mod + (i * 80))) {
+            if ((50 + (i * 60) <= x) && (x < 50 + ((i + 1) * 60))) {
                 return i + 1;
             }
         }

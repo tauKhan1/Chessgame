@@ -2,6 +2,7 @@ package game.logic.rules;
 
 import game.logic.components.GamePiece;
 import game.logic.components.Board;
+import game.logic.move.Move;
 import game.logic.rules.MovingRule;
 import game.logic.rules.MoveLegalityIdentifier;
 import game.logic.rules.MovingRules;
@@ -19,17 +20,16 @@ public class MoveLegalityIdentifierRuleIsApplicableTest {
     GamePiece piece1;
     GamePiece piece2;
     GamePiece piece3;
-    List<MovingRule> inventedRules;
     MovingRule rule1;
     MovingRule rule2;
     MovingRule rule3;
 
     @Before
     public void setUp() {
-
+        
         board = new Board();
         rules = new MovingRules();
-        identifier = new MoveLegalityIdentifier(board, rules);
+        identifier = new MoveLegalityIdentifier(board, rules, new CheckIdentifier());
         piece1 = new GamePiece("BISHOP", "WHITE", "UNMOVED");
         piece2 = new GamePiece("ROOK", "WHITE", "UNMOVED");
         piece3 = new GamePiece("KNIGHT", "BLACK", "UNMOVED");
@@ -44,39 +44,39 @@ public class MoveLegalityIdentifierRuleIsApplicableTest {
 
     @Test
     public void TestSimpleRuleIsApplicable() {
-
-        assertTrue(identifier.ruleIsApplicable(1, 1, 2, 2, "WHITE", rule1));
+        
+        assertTrue(identifier.ruleIsApplicable(new Move(1,1,2,2), "WHITE", rule1));
     }
 
     @Test
     public void TestUnmatchingMoveReturnsFalse() {
 
-        assertTrue(!identifier.ruleIsApplicable(1, 1, 2, 1, "WHITE", rule1));
+        assertTrue(!identifier.ruleIsApplicable(new Move(1,1,2,1), "WHITE", rule1));
     }
 
     @Test
     public void TestLimitedRuleWorks() {
 
-        assertTrue(identifier.ruleIsApplicable(1, 1, 2, 1, "BLACK", rule2));
+        assertTrue(identifier.ruleIsApplicable(new Move(1,1,2,1), "BLACK", rule2));
     }
 
     @Test
     public void TestLimitedRuleDoesntAllowMultiplication() {
 
-        assertTrue(!identifier.ruleIsApplicable(1, 1, 5, 1, "WHITE", rule2));
+        assertTrue(!identifier.ruleIsApplicable(new Move(1,1,5,1), "WHITE", rule2));
     }
 
     @Test
     public void TestSimpleRuleDoesntAllowNegativeMovement() {
 
-        assertTrue(!identifier.ruleIsApplicable(3, 3, 2, 2, "WHITE", rule1));
+        assertTrue(!identifier.ruleIsApplicable(new Move(3,3,2,2), "WHITE", rule1));
     }
 
     @Test
     public void TestColorRestrictionWorks() {
 
-        boolean first = identifier.ruleIsApplicable(3, 3, 3, 1, "WHITE", rule3);
-        boolean second = identifier.ruleIsApplicable(5, 5, 5, 4, "BLACK", rule3);
+        boolean first = identifier.ruleIsApplicable(new Move(3,3,3,1), "WHITE", rule3);
+        boolean second = identifier.ruleIsApplicable(new Move(5,5,5,4), "BLACK", rule3);
 
         assertTrue(!first && second);
     }
@@ -84,18 +84,18 @@ public class MoveLegalityIdentifierRuleIsApplicableTest {
     @Test
     public void TestCannotLeapPieces() {
 
-        assertTrue(!identifier.ruleIsApplicable(1, 1, 4, 4, "WHITE", rule1));
+        assertTrue(!identifier.ruleIsApplicable(new Move(1,1,4,4), "WHITE", rule1));
     }
 
     @Test
     public void TestCannotEndUpOnSameColoredPiece() {
 
-        assertTrue(!identifier.ruleIsApplicable(1, 1, 3, 3, "WHITE", rule1));
+        assertTrue(!identifier.ruleIsApplicable(new Move(1,1,3,3), "WHITE", rule1));
     }
 
     @Test
     public void TestCaptureIsntPrevented() {
 
-        assertTrue(identifier.ruleIsApplicable(3, 3, 5, 5, "WHITE", rule1));
+        assertTrue(identifier.ruleIsApplicable(new Move(3,3,5,5), "WHITE", rule1));
     }
 }

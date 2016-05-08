@@ -4,6 +4,7 @@ package game.logic.components;
 import game.logic.components.GamePiece;
 import game.logic.components.Board;
 import game.logic.components.Square;
+import game.logic.move.Move;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -24,28 +25,15 @@ public class BoardMovePieceTest {
         
         board.insertPiece(1, 1, piece1);
         board.insertPiece(4, 5, piece2);
-        
+        Move move = new Move(1,1,5,6);
+        move.setMoved(piece1);
+        board.movePiece(move);
     }
-    
-    @Test
-    public void TestBadSquareParameters() {
-        boolean moved = board.movePiece(0, 4, 3, 6);
-        boolean moved2 = board.movePiece(1, 4, 19, 6);
-        boolean moved3 = board.movePiece(0, 4, -10, 6);
         
-        assertTrue(!(moved && moved2 && moved3));
-    }
-    
-    @Test
-    public void TestPieceMoves(){
-        boolean moved = board.movePiece(1, 1, 3, 7);
-        
-        assertTrue(moved);
-    }
     
     @Test
     public void TestPieceMovesToCorrectSquare(){
-        boolean moved = board.movePiece(1, 1, 5, 6);
+
         
         Square position = piece1.getLocation();
         assertTrue(position.getRow() == 5 && position.getColumn() == 6);
@@ -53,14 +41,16 @@ public class BoardMovePieceTest {
     
     @Test
     public void TestPieceStatusUpdated(){
-        board.movePiece(1, 1, 5, 6);
         
         assertTrue(piece1.getStatus().equals("MOVED"));
     }
     
     @Test
     public void TestPieceGetsCaptured(){
-        board.movePiece(1, 1, 4, 5);
+        Move move2 = new Move(5, 6, 4, 5);
+        move2.setMoved(piece1);
+        move2.setCaptured(piece2);
+        board.movePiece(move2);
         
         assertTrue(piece2.getStatus().equals("CAPTURED"));
     }

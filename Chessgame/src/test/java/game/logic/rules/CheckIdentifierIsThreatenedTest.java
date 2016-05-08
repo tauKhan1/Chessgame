@@ -21,8 +21,9 @@ public class CheckIdentifierIsThreatenedTest {
 
         board = new Board();
         rules = new MovingRules();
-        moveIdentifier = new MoveLegalityIdentifier(board, rules);
-        checkIdentifier = new CheckIdentifier(moveIdentifier);
+        checkIdentifier = new CheckIdentifier();
+        moveIdentifier = new MoveLegalityIdentifier(board, rules, checkIdentifier);
+        checkIdentifier.setMoveLegalityIdentifier(moveIdentifier);
         piece1 = new GamePiece("BISHOP", "WHITE", "UNMOVED");
         piece2 = new GamePiece("BISHOP", "WHITE", "UNMOVED");
         piece3 = new GamePiece("BISHOP", "BLACK", "UNMOVED");
@@ -39,5 +40,15 @@ public class CheckIdentifierIsThreatenedTest {
     @Test
     public void TestOccupiedSquareIsThreatened() {
         assertTrue(checkIdentifier.squareIsThreatened(5, 5, board, "WHITE"));
+    }
+    
+    @Test
+    public void TestNotThreatenedSquareIsNotThreatened() {
+        assertTrue(!checkIdentifier.squareIsThreatened(7, 8, board, "WHITE"));
+    }
+    
+    @Test
+    public void TestSquareNotThreatenedThroughGamePiece() {
+        assertTrue(!checkIdentifier.squareIsThreatened(2, 2, board, "BLACK"));
     }
 }

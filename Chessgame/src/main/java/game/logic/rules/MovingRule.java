@@ -4,27 +4,27 @@ package game.logic.rules;
  * Luokka kuvaa yhtä mahdollista nappulatyyppiin liittyvää liikkumissääntöä.
  */
 public class MovingRule {
-    
+
     private MoveBaseVector base;
     private char possibleMultiplier;
     private String colorRestriction;
     private String specialRules;
-    
+
     /**
      * Luo liikkumissäännön.
-     * 
-     * @param vert  Pystykomponentti
-     * 
-     * @param hori  Vaakakomponentti
-     * 
+     *
+     * @param vert Pystykomponentti
+     *
+     * @param hori Vaakakomponentti
+     *
      * @param possibleMultiplier Kerroin, joka kuvaa voiko liikkumisvektorin
      * mukaiseen suuntaan liikkua useampia askelia
      */
-    public MovingRule(int vert, int hori, char possibleMultiplier) {
-        this.base = new MoveBaseVector(vert, hori);
+    public MovingRule(int hori, int vert, char possibleMultiplier) {
+        this.base = new MoveBaseVector(hori, vert);
         this.possibleMultiplier = possibleMultiplier;
         this.colorRestriction = "";
-        this.specialRules = "";        
+        this.specialRules = "";
     }
 
     public MoveBaseVector getBase() {
@@ -58,7 +58,5 @@ public class MovingRule {
     public void setSpecialRules(String specialRules) {
         this.specialRules = specialRules;
     }
-    
 
-    
 }

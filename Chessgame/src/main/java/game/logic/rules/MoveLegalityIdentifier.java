@@ -2,6 +2,7 @@ package game.logic.rules;
 
 import game.logic.components.Board;
 import game.logic.components.GamePiece;
+import game.logic.move.Move;
 import java.util.List;
 
 /**
@@ -12,101 +13,96 @@ public class MoveLegalityIdentifier {
     private Board board;
     private MovingRules rules;
     private SpecialRuleChecker specialRuleChecker;
-    
+    private CheckIdentifier checkIdentifier;
+
     /**
      * Luo liikkumissääntöjen oikeellisuuden tunnistajan.
-     * 
+     *
      * @param board Pelilauta
      * @param rules Säännöt
+     * @param c Shakin tarkastaja, joka tarkistaa ettei laudalle synny shakkia
+     * siirtojen yhteydessä
      */
-    public MoveLegalityIdentifier(Board board, MovingRules rules) {
+    public MoveLegalityIdentifier(Board board, MovingRules rules, CheckIdentifier c) {
         this.board = board;
         this.rules = rules;
-        this.specialRuleChecker = new SpecialRuleChecker();
+        this.specialRuleChecker = new SpecialRuleChecker(c);
+        this.checkIdentifier = c;
     }
-    
+
     /**
      * Kertoo onko siirto sääntöjen mukainen. Toteutus keskeneräinen.
-     * 
-     * @param origRow   Liikutettavan nappulan rivi
-     * @param origColumn    Liikutettavan nappulan sarake
-     * @param nextRow   Rivi, jolle nappula yritetään siirtää
-     * @param nextColumn    Sarake, jolle nappula yritetään siirtää 
+     *
+     * @param move yritetty siirto
      * @param color Vuorossa olevan pelaajan väri
      * @return Tulos siitä, onko liike pelin sääntöjen mukainen.
      */
-    public boolean isLegal(int origRow, int origColumn, int nextRow, int nextColumn, String color) {
-        if (!moveIsPossible(origRow, origColumn, nextRow, nextColumn, color)) {
+    public boolean isLegal(Move move, String color) {
+        if (!moveIsPossible(move, color)) {
             return false;
         }
-        
-        return doesNotCauseCheck(origRow, origColumn, nextRow, nextColumn, color);
+        return doesNotCauseCheck(move, color);
     }
 
     /**
-     * Kertoo onko siirto liikkumissääntöjen mukainen, ottamatta huomioon siirrosta mahdollisesti aiheutuvaa
-     * shakkia, joka voi estää siirron.
-     * 
-     * @param origRow   Liikutettavan nappulan rivi
-     * @param origColumn    Liikutettavan nappulan sarake
-     * @param nextRow   Rivi, jolle nappula yritetään siirtää
-     * @param nextColumn    Sarake, jolle nappula yritetään siirtä
+     * Kertoo onko siirto liikkumissääntöjen mukainen, ottamatta huomioon
+     * siirrosta mahdollisesti aiheutuvaa shakkia, joka voi estää siirron.
+     *
+     * @param move siirto
      * @param color Vuorossa olevan pelaajan väri
-     * 
+     *
      * @return Tulos siitä, onko liike liikkumissääntöjen mukainen
-     */    
-    public boolean moveIsPossible(int origRow, int origColumn, int nextRow, int nextColumn, String color) {
-        if (!isMoveWithinBoard(origRow, origColumn, nextRow, nextColumn)) {
+     */
+    public boolean moveIsPossible(Move move, String color) {
+        if (!isMoveWithinBoard(move)) {
             return false;
-            
+
         }
 
-        GamePiece movable = board.getSquareContent(origRow, origColumn);
+        GamePiece movable = board.getSquareContent(move.getPrevRow(), move.getPrevCol());
 
         if (movable == null) {
             return false;
         }
-
+        move.setMoved(movable);
+        move.setMovedPreviousStatus(movable.getStatus());
         if (!movable.getColor().equals(color)) {
             return false;
         }
+        move.setCaptured(board.getSquareContent(move.getNextRow(), move.getNextCol()));
 
         String type = movable.getType();
         List<MovingRule> pieceRules = this.rules.getRules(type);
 
         for (MovingRule pieceRule : pieceRules) {
-            if (ruleIsApplicable(origRow, origColumn, nextRow, nextColumn, color, pieceRule)) {
+            if (ruleIsApplicable(move, color, pieceRule)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean isMoveWithinBoard(int origRow, int origColumn, int nextRow, int nextColumn) {
+    private boolean isMoveWithinBoard(Move move) {
 
-        return (origRow < 9) && (1 <= origRow) && (origColumn < 9) && (1 <= origColumn) && (nextRow < 9) && (1 <= nextRow) && (nextColumn < 9) && (1 <= nextColumn);
+        return (move.getPrevRow() < 9) && (1 <= move.getPrevRow()) && (move.getPrevCol() < 9) && (1 <= move.getNextRow()) && (move.getNextRow() < 9) && (1 <= move.getNextRow()) && (move.getNextCol() < 9) && (1 <= move.getNextCol());
     }
-    
+
     /**
      * Metodi kertoo, onko siirto yksittäisen liikkumissäännön mukainen.
-     * 
-     * @param or    Siirrettävän nappulan rivi
-     * @param oc    Siirrettävän nappulan sarake
-     * @param nr    Kohderivi
-     * @param nc    Kohdesarake
+     *
+     * @param move siirto
      * @param color Siirrettävän nappulan väri
-     * @param rule  Liikkumissääntö
-     * 
+     * @param rule Liikkumissääntö
+     *
      * @return Tieto siitä, onko siirto metodille annetun säännön mukainen
      */
-    public boolean ruleIsApplicable(int or, int oc, int nr, int nc, String color, MovingRule rule) {
+    public boolean ruleIsApplicable(Move move, String color, MovingRule rule) {
 
         if (!color.equals(rule.getColorRestriction()) && !(rule.getColorRestriction().isEmpty())) {
             return false;
         }
-
         int multiplier = attemptedMoveVectorMultiplier(rule.getBase().getHorizontalComponent(), rule.getBase().getVerticalComponent(),
-                nc - oc, nr - or);
+                move.getHorizontalVector(), move.getVerticalVector());
 
         if (multiplier < 1) {
             return false;
@@ -116,12 +112,12 @@ public class MoveLegalityIdentifier {
             return false;
         }
 
-        if (!noObstaclesInTheWayOfMove(or, oc, rule.getBase().getHorizontalComponent(),
+        if (!noObstaclesInTheWayOfMove(move.getPrevRow(), move.getPrevCol(), rule.getBase().getHorizontalComponent(),
                 rule.getBase().getVerticalComponent(), multiplier, color)) {
             return false;
         }
 
-        if (!checkSpecialRulesAllowMove(or, oc, nr, nc, color, rule)) {
+        if (!checkSpecialRulesAllowMove(move, color, rule)) {
             return false;
         }
         return true;
@@ -180,17 +176,14 @@ public class MoveLegalityIdentifier {
         return true;
     }
 
-    private boolean checkSpecialRulesAllowMove(int origRow, int origCol, int nextRow,
-            int nextCol, String color, MovingRule rule) {
-        
+    private boolean checkSpecialRulesAllowMove(Move move, String color, MovingRule rule) {
+
         String specialRules = rule.getSpecialRules();
-        return specialRuleChecker.check(origRow, origCol, nextRow,
-                nextCol, color, specialRules, board);
+        return specialRuleChecker.check(move, color, specialRules, board);
     }
-    
-    private boolean doesNotCauseCheck(int origRow, int origCol, int nextRow,
-            int nextCol, String color) {
-        
-        return true;
+
+    private boolean doesNotCauseCheck(Move move, String color) {
+
+        return !this.checkIdentifier.isCheckAfterMove(color, board, move);
     }
 }

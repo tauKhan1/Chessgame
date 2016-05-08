@@ -1,5 +1,6 @@
 package game.logic.components;
 
+import game.logic.move.Move;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +40,17 @@ public class Board {
     public GamePiece getSquareContent(int row, int column) {
 
         return this.squares.get(convertPairToSquare(row, column)).getPiece();
+    }
+    
+    /**
+     * Metodi palauttaa kysytyssä sijainnissa olevan ruudun.
+     * 
+     * @param row Ruudun rivi
+     * @param column Ruudun sarake
+     * @return Ruutu
+     */
+    public Square getSquare(int row, int column) {
+        return this.squares.get(convertPairToSquare(row, column));
     }
     
     /**
@@ -94,51 +106,72 @@ public class Board {
     /**
      * Metodi liikuttaa nappulaa laudalla.
      * 
-     * @param originalRow   Nappulan rivi
-     * 
-     * @param originalColumn    Nappulan sarake
-     * 
-     * @param nextRow   Kohderivi
-     * 
-     * @param nextColumn    Kohdesarake
-     * 
-     * @return Onnistuiko liikuttaminen
+     * @param move Suoritettava siirto
      */
-    public boolean movePiece(int originalRow, int originalColumn, int nextRow, int nextColumn) {
-        if (!isSquare(originalRow, originalColumn) || !isSquare(nextRow, nextColumn)) {
-            return false;
-        }
-
-        Square previous = this.squares.get(convertPairToSquare(originalRow, originalColumn));
-        Square next = this.squares.get(convertPairToSquare(nextRow, nextColumn));
-        GamePiece moving = previous.getPiece();
-        GamePiece captured = next.getPiece();
-
-        if (moving == null) {
-            return false;
-        }
-
+    public void movePiece(Move move) {
+        GamePiece moving = move.getMoved();
+        GamePiece captured = move.getCaptured();
+        Square targetSquare = this.squares.get(convertPairToSquare(move.getNextRow(), move.getNextCol()));
         if (captured != null) {
             capture(captured);
         }
 
-        previous.setPiece(null);
-        next.setPiece(moving);
-        moving.setLocation(next);
+        moving.getLocation().setPiece(null);
+        targetSquare.setPiece(moving);
+        moving.setLocation(targetSquare);
         moving.setStatus("MOVED");
 
-        return true;
+    }
+    
+    /**
+     * Metodilla peruutetaan siirto eli asetetaan lauta siirtoa edeltäneeseen tilaan.
+     * @param move Peruutettava siirto
+     */
+    public void revertMove(Move move) {
+        Square prevSquare = this.squares.get(convertPairToSquare(move.getPrevRow(), move.getPrevCol()));
+        Square current = this.squares.get(convertPairToSquare(move.getNextRow(), move.getNextCol()));
+        GamePiece moved = move.getMoved();
+        prevSquare.setPiece(moved);
+        GamePiece captured = move.getCaptured();
+        
+        moved.setLocation(prevSquare);
+        moved.setStatus(move.getMovedPreviousStatus());
+        
+        current.setPiece(captured);
+        if (captured != null) {
+            captured.setStatus(move.getCapturedPreviousStatus());
+        }
     }
 
     private int convertPairToSquare(int row, int column) {
         return (row - 1) * 8 + column - 1;
     }
-
-    private void capture(GamePiece piece) {
+    
+    /**
+     * Metodilla syödään nappula laudalta.
+     * @param piece Syötävä nappula
+     */
+    public void capture(GamePiece piece) {
+        piece.getLocation().setPiece(null);
         piece.setStatus("CAPTURED");
     }
 
     private boolean isSquare(int row, int column) {
         return 0 < row && 0 < column && row < 9 && column < 9;
+    }
+    
+    /**
+     * Metodi palauttaa kysytyn värisen kuninkaan sijainnin.
+     * 
+     * @param color Haluttu väri.
+     * @return Ruutu, jolla kuningas sijaitsee
+     */
+    public Square getKingLocation(String color) {
+        for (GamePiece piece: this.pieces) {
+            if (piece.getColor().equals(color) && piece.getType().equals("KING")) {
+                return piece.getLocation();
+            }
+        }
+        return null;
     }
 }
